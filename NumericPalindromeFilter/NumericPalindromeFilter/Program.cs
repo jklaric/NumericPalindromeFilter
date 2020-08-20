@@ -63,23 +63,20 @@ namespace NumericPalindromeFilter
         static bool IsPalindrome(int numberInputAsInt, List<int> numbersList, List<int> firstNumberDigits, List<int> secondNumberDigits, bool isNumericPalindrome)
         {
             int counter = 0;
-            int divisionInt = 10;
 
 
             while (numbersList[0] > 0)
             {
                 firstNumberDigits.Add((numbersList[0] % 10));
                 numbersList[0] = numbersList[0] / 10;
-                divisionInt = divisionInt * 10;
             }
 
-            divisionInt = 10;
+           
 
             while (numbersList[1] > 0)
             {
-                firstNumberDigits.Add((numbersList[1] % 10));
+                secondNumberDigits.Add((numbersList[1] % 10));
                 numbersList[1] = numbersList[1] / 10;
-                divisionInt = divisionInt * 10;
             }
 
             var firstNumberDigitsReversed = firstNumberDigits;
