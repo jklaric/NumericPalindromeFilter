@@ -9,10 +9,14 @@ namespace NumericPalindromeFilter
         static void Main(string[] args)
         {
             string numberInput;
-            int numberInputAsInt;
+            int numberInputAsInt = 0;
             var numbersList = new List<int>();
             var firstNumberDigits = new List<int>();
-            int divisionInt = 10;
+            var secondNumberDigits = new List<int>();
+            bool isNumericPalindrome = true;
+            bool isNumericAnagram = true;
+            
+
 
 
 
@@ -36,26 +40,79 @@ namespace NumericPalindromeFilter
                     }
                 }
             }
+
+            if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == true && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == true)
+            {
+                Console.WriteLine("These numbers are both palindromes and anagrams of each other.");
+            }
+            else if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == true && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == false)
+            {
+                Console.WriteLine("These numbers are palindromes, but are not anagrams of each other.");
+            }
+            else if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == false && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == true)
+            {
+                Console.WriteLine("These numbers are not palindromes, but are anagrams of each other.");
+            }
+            else if(IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == false && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == false)
+            {
+                Console.WriteLine("These numbers are nor palindromes nor anagrams of each others");
+            }
         }
 
-        static bool isPalindrome(int numberInputAsInt, List<int> firstNumberDigits, int divisionInt, List<int> secondNumberDigits)
+
+        static bool IsPalindrome(int numberInputAsInt, List<int> numbersList, List<int> firstNumberDigits, List<int> secondNumberDigits, bool isNumericPalindrome)
         {
-            for (int i = 0; i < numberInputAsInt.ToString().Count(); i++)
+            int counter = 0;
+            int divisionInt = 10;
+
+
+            while (numbersList[0] > 0)
             {
-                firstNumberDigits.Add((numberInputAsInt / divisionInt) % 10);
+                firstNumberDigits.Add((numbersList[0] % 10));
+                numbersList[0] = numbersList[0] / 10;
                 divisionInt = divisionInt * 10;
             }
 
-            for (int i = 0; i < numberInputAsInt.ToString().Count(); i++)
+            divisionInt = 10;
+
+            while (numbersList[1] > 0)
             {
-                secondNumberDigits.Add((numberInputAsInt / divisionInt) % 10);
+                firstNumberDigits.Add((numbersList[1] % 10));
+                numbersList[1] = numbersList[1] / 10;
                 divisionInt = divisionInt * 10;
             }
 
-            if (firstNumberDigits.Except(firstNumberDigits.Reverse()).ToList())
+            var firstNumberDigitsReversed = firstNumberDigits;
+            firstNumberDigitsReversed.Reverse();
+
+            var secondNumberDigitsReversed = secondNumberDigits;
+            secondNumberDigitsReversed.Reverse();
+
+            if (firstNumberDigits[counter++] == firstNumberDigitsReversed[counter++] && secondNumberDigits[counter++] == secondNumberDigitsReversed[counter++])
             {
-                
+                isNumericPalindrome = true;
             }
+            else
+            {
+                isNumericPalindrome = false;
+            }
+
+            return isNumericPalindrome;
         }
+
+        static bool IsAnagram(bool isNumericAnagram, List<int> firstNumberDigits, List<int>secondNumberDigits)
+        {
+            if (!firstNumberDigits.Except(secondNumberDigits).Any())
+            {
+                isNumericAnagram = true;
+            }
+            else
+            {
+                isNumericAnagram = false;
+            }
+
+            return isNumericAnagram;
+        }
+
     }
 }
