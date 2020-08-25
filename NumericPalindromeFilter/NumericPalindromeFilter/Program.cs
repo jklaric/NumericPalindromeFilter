@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace NumericPalindromeFilter
 {
@@ -15,7 +16,11 @@ namespace NumericPalindromeFilter
             var secondNumberDigits = new List<int>();
             bool isNumericPalindrome = true;
             bool isNumericAnagram = true;
-            
+            bool isNumericPalindromeSecond = true;
+            string palindromeResultFirst;
+            string palindromeResultSecond;
+            string anagramResult;
+
 
 
 
@@ -41,29 +46,41 @@ namespace NumericPalindromeFilter
                 }
             }
 
-            if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == true && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == true)
+            if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, isNumericPalindrome) == true)
             {
-                Console.WriteLine("These numbers are both palindromes and anagrams of each other.");
+                palindromeResultFirst = ("is");
             }
-            else if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == true && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == false)
+            else
             {
-                Console.WriteLine("These numbers are palindromes, but are not anagrams of each other.");
+                palindromeResultFirst = ("isn't");
             }
-            else if (IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == false && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == true)
+
+            if (IsPalindromeSecond(numberInputAsInt, numbersList, secondNumberDigits, isNumericPalindromeSecond) == true)
             {
-                Console.WriteLine("These numbers are not palindromes, but are anagrams of each other.");
+                palindromeResultSecond = ("is");
             }
-            else if(IsPalindrome(numberInputAsInt, numbersList, firstNumberDigits, secondNumberDigits, isNumericPalindrome) == false && IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == false)
+            else
             {
-                Console.WriteLine("These numbers are nor palindromes nor anagrams of each others");
+                palindromeResultSecond = ("isn't");
             }
+
+            if (IsAnagram(isNumericAnagram, firstNumberDigits, secondNumberDigits) == true)
+            {
+                anagramResult = ("are");
+            }
+            else
+            {
+                anagramResult = ("aren't");
+            }
+
+            Console.WriteLine("The first number " + palindromeResultFirst + " a palindromic number, the second number " + palindromeResultSecond + 
+                              " a palindromic number. These numbers " + anagramResult + " Anagrams of each other");
+
         }
 
 
-        static bool IsPalindrome(int numberInputAsInt, List<int> numbersList, List<int> firstNumberDigits, List<int> secondNumberDigits, bool isNumericPalindrome)
+        static bool IsPalindrome(int numberInputAsInt, List<int> numbersList, List<int> firstNumberDigits, bool isNumericPalindrome)
         {
-            int counter = 0;
-
 
             while (numbersList[0] > 0)
             {
@@ -71,7 +88,30 @@ namespace NumericPalindromeFilter
                 numbersList[0] = numbersList[0] / 10;
             }
 
-           
+
+            for (int i = 0; i < firstNumberDigits.Count; i++)
+            {
+                for (int j = firstNumberDigits.Count - 1; j >= 0; j--)
+                {
+
+                    if (firstNumberDigits[i] == firstNumberDigits[j])
+                    {
+                        isNumericPalindrome = true;
+                    }
+                    else
+                    {
+                        isNumericPalindrome = false;
+                    }
+
+                    i++;
+                }
+            }
+
+            return isNumericPalindrome;
+        }
+
+        static bool IsPalindromeSecond(int numberInputAsInt, List<int> numbersList, List<int> secondNumberDigits, bool isNumericPalindromeSecond)
+        {
 
             while (numbersList[1] > 0)
             {
@@ -79,25 +119,27 @@ namespace NumericPalindromeFilter
                 numbersList[1] = numbersList[1] / 10;
             }
 
-            var firstNumberDigitsReversed = firstNumberDigits;
-            firstNumberDigitsReversed.Reverse();
-
-            var secondNumberDigitsReversed = secondNumberDigits;
-            secondNumberDigitsReversed.Reverse();
-
-            if (firstNumberDigits[counter++] == firstNumberDigitsReversed[counter++] && secondNumberDigits[counter++] == secondNumberDigitsReversed[counter++])
+            for (int i = 0; i < secondNumberDigits.Count; i++)
             {
-                isNumericPalindrome = true;
-            }
-            else
-            {
-                isNumericPalindrome = false;
+                for (int j = secondNumberDigits.Count - 1; j >= 0; j--)
+                {
+                    if (secondNumberDigits[i] == secondNumberDigits[j])
+                    {
+                        isNumericPalindromeSecond = true;
+                    }
+                    else
+                    {
+                        isNumericPalindromeSecond = false;
+                    }
+
+                    i++;
+                }
             }
 
-            return isNumericPalindrome;
+            return isNumericPalindromeSecond;
         }
 
-        static bool IsAnagram(bool isNumericAnagram, List<int> firstNumberDigits, List<int>secondNumberDigits)
+        static bool IsAnagram(bool isNumericAnagram, List<int> firstNumberDigits, List<int> secondNumberDigits)
         {
             if (!firstNumberDigits.Except(secondNumberDigits).Any())
             {
