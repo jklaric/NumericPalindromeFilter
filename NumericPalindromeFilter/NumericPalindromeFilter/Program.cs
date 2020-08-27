@@ -75,7 +75,6 @@ namespace NumericPalindromeFilter
 
             Console.WriteLine("The first number " + palindromeResultFirst + " a palindromic number, the second number " + palindromeResultSecond + 
                               " a palindromic number. These numbers " + anagramResult + " Anagrams of each other");
-
         }
 
 
@@ -87,7 +86,6 @@ namespace NumericPalindromeFilter
                 firstNumberDigits.Add((numbersList[0] % 10));
                 numbersList[0] = numbersList[0] / 10;
             }
-
 
             for (int i = 0; i < firstNumberDigits.Count; i++)
             {
@@ -141,7 +139,7 @@ namespace NumericPalindromeFilter
 
         static bool IsAnagram(bool isNumericAnagram, List<int> firstNumberDigits, List<int> secondNumberDigits)
         {
-            if (!firstNumberDigits.Except(secondNumberDigits).Any())
+            if (firstNumberDigits.All(secondNumberDigits.Contains) && secondNumberDigits.All(firstNumberDigits.Contains))
             {
                 isNumericAnagram = true;
             }
